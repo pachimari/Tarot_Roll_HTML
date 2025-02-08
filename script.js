@@ -482,6 +482,21 @@ const rerollButton = document.getElementById('rerollButton');
 // 状态变量
 let isTripleMode = false;
 let drawnCards = [];
+let availableCards = [...tarotCards]; // 添加可用卡牌数组
+
+// 重置可用卡牌
+function resetAvailableCards() {
+    availableCards = [...tarotCards];
+}
+
+// 从可用卡牌中随机抽取一张
+function getRandomCard() {
+    const index = Math.floor(Math.random() * availableCards.length);
+    const card = availableCards[index];
+    // 从可用卡牌中移除这张牌
+    availableCards.splice(index, 1);
+    return card;
+}
 
 // 创建卡片HTML
 function createCardHTML(index) {
@@ -522,6 +537,8 @@ function drawCard(index) {
             cardInfo.classList.add('hidden');
             cardElement.querySelector('.card-front img').style.transform = 'rotate(0deg)';
             drawnCards[index-1] = null;
+            // 将卡牌放回可用卡组
+            availableCards.push(drawnCards[index-1].card);
             checkAllCardsDrawn();
         }, 300);
         return;
@@ -530,7 +547,7 @@ function drawCard(index) {
         return;
     }
     
-    const card = tarotCards[Math.floor(Math.random() * tarotCards.length)];
+    const card = getRandomCard();
     const isReversed = Math.random() < 0.5;
     
     const cardElement = document.getElementById(`tarotCard${index}`);
@@ -579,6 +596,7 @@ function rerollCards() {
         }, 300);
     }
     drawnCards = new Array(cardCount).fill(null);
+    resetAvailableCards(); // 重置可用卡牌
     rerollButton.classList.add('hidden');
 }
 
@@ -602,6 +620,7 @@ function updateInterface() {
     
     // 重置抽牌状态
     drawnCards = new Array(cardCount).fill(null);
+    resetAvailableCards(); // 重置可用卡牌
     rerollButton.classList.add('hidden');
 }
 
