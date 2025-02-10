@@ -6,7 +6,7 @@ app = Flask(__name__)
 CORS(app, resources={r"/predict": {"origins": "*"}})
 
 # 配置API密钥
-GOOGLE_API_KEY = "AIzaSyCGpR14cKZGcbJ7wAf_NQPYr7q5YDqhMRc"  # 需要替换为实际的API密钥
+GOOGLE_API_KEY = ""  # 需要替换为实际的API密钥
 genai.configure(api_key=GOOGLE_API_KEY)
 
 
